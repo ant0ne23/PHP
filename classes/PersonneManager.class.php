@@ -23,7 +23,7 @@
             $sql = 'SELECT * FROM SALARIE WHERE per_num ='.$perNum;
             $requete = $this->db->prepare($sql);
             $requete->execute();
-            if ($result = $requete->fetch(PDO::FETCH_OBJ)){ //result retourne un booleen
+            if ($result = $requete->fetch(PDO::FETCH_OBJ)){
                 $requete->closeCursor();
                 return $result;
             } else {
@@ -59,13 +59,13 @@
         $lastId = $req->fetchColumn();
         return $lastId;
       }
-      
+
     public function delete_personne($pernum){
-      $sql1 = "DELETE * FROM Personne WHERE per_num=".$pernum;
-      $sql2 = "DELETE * FROM Vote WHERE per_num=".$pernum;
-      $sql3 = "DELETE * FROM Etudiant WHERE per_num=".$pernum;
-      $sql4 = "DELETE * FROM Salarie WHERE per_num=".$pernum;
-      $sql5 = "DELETE * FROM Citation WHERE per_num=".$pernum;
+      $sql1 = "DELETE FROM Vote WHERE per_num=".$pernum;
+      $sql2 = "DELETE FROM Citation WHERE per_num=".$pernum;
+      $sql3 = "DELETE FROM Etudiant WHERE per_num=".$pernum;
+      $sql4 = "DELETE FROM Salarie WHERE per_num=".$pernum;
+      $sql5 = "DELETE FROM Personne WHERE per_num=".$pernum;
 
       $requete1 = $this->db->prepare($sql1);
       $requete1->execute();
@@ -77,6 +77,14 @@
       $requete4->execute();
       $requete5 = $this->db->prepare($sql5);
       $requete5->execute();
+    }
+
+    public function getNomPrenom($pernum){
+      $sql ="SELECT CONCAT(per_nom,' ',per_prenom) as nomPrenom FROM personne WHERE per_num=".$pernum;
+      $requete=$this->db->prepare($sql);
+      $requete->execute();
+      $perNomPrenom = $requete->fetch(PDO::FETCH_OBJ);
+			return $perNomPrenom->nomPrenom;
     }
 }
  ?>
