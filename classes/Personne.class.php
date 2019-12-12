@@ -107,11 +107,11 @@ class Personne{
     }
 
     public function setVille($ville){
-      $this->etu_ville=$ville
+      $this->per_ville=$ville
       ;
     }
     public function getVille(){
-    return $this->etu_ville;
+    return $this->per_ville;
   }
 
 }
