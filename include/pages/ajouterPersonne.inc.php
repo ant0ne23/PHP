@@ -107,6 +107,7 @@ else {
         $newSal->setTelProf($_POST['tel']);
         $newSal->setFon($_POST['fonction']);
         $salarieManager->addSalarie($newSal);
+        ?> <p><?php echo "Le salarie ".$personneManager->getNomPrenom($personneManager->lastInsertId())."a bien été ajouté"?></p><?php
       }
       if(isset($_POST["division"])){
         $personneajoutee=unserialize($_SESSION['personne']);
@@ -115,7 +116,8 @@ else {
         $newEtu->setPerNum($personneManager->lastInsertId());
         $newEtu->setDiv($_POST['division']);
         $newEtu->setDep($_POST['departement']);
-        $etudiantManager->addEtudiant($newEtu);
+        $etudiantManager->addEtudiant($newEtu); ?>
+        <p><?php echo "L'étudiant' ".$personneManager->getNomPrenom($personneManager->lastInsertId())."a bien été ajouté"?></p><?php
       }
     }
 }

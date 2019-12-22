@@ -20,16 +20,16 @@
     }
 
     public function isSalarie($perNum){
-            $sql = 'SELECT * FROM SALARIE WHERE per_num ='.$perNum;
-            $requete = $this->db->prepare($sql);
-            $requete->execute();
-            if ($result = $requete->fetch(PDO::FETCH_OBJ)){
-                $requete->closeCursor();
-                return $result;
-            } else {
-                $requete->closeCursor();
-                return $result;
-            }
+      $sql = 'SELECT * FROM SALARIE WHERE per_num ='.$perNum;
+      $requete = $this->db->prepare($sql);
+      $requete->execute();
+      if ($result = $requete->fetch(PDO::FETCH_OBJ)){
+          $requete->closeCursor();
+          return $result;
+      } else {
+          $requete->closeCursor();
+          return $result;
+      }
     }
 
     public function addPersonne($personne){
@@ -86,5 +86,36 @@
       $perNomPrenom = $requete->fetch(PDO::FETCH_OBJ);
 			return $perNomPrenom->nomPrenom;
     }
+
+    public function modifierPersonne($per){
+				$sqls = "select per_pwd FROM personne where per_num=:perNum";
+
+				$requetes = $this->db->prepare($sqls);
+				$requetes->bindValue(':perNum', $per->getPerNum(), PDO::PARAM_INT);
+				$requetes->execute();
+
+				$personne = $requetes->fetch(PDO::FETCH_OBJ);
+
+				$anc_pwd = $personne->per_pwd;
+
+				if($anc_pwd == $per->getPerPwd()){
+					$pwd_crypte = $per->getPerPwd();
+				} else {
+					$pwd_crypte = cryptePwd($per->getPerPwd());
+				}
+
+				$sql = "Update personne
+								set per_nom = :nom, per_prenom = :prenom, per_tel = :tel, per_mail = :mail, per_login = :login, per_pwd = '$pwd_crypte'
+								WHERE per_num = :num";
+				$requete = $this->db->prepare($sql);
+				$requete->bindValue(':num', $per->getPerNum(), PDO::PARAM_INT);
+				$requete->bindValue(':nom', $per->getPerNom(), PDO::PARAM_STR);
+				$requete->bindValue(':prenom', $per->getPerPrenom(), PDO::PARAM_STR);
+				$requete->bindValue(':tel', $per->getPerTel(), PDO::PARAM_STR);
+				$requete->bindValue(':mail', $per->getPerMail(), PDO::PARAM_STR);
+				$requete->bindValue(':login', $per->getPerLogin(), PDO::PARAM_STR);
+
+				$requete->execute();
+			}
 }
  ?>

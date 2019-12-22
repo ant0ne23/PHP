@@ -70,10 +70,12 @@ case 10:
 
 case 11:
 	// inclure ici la page...
+	include("pages/modifierVille.inc.php");
     break;
 
 case 12:
 	// inclure ici la page...
+	include("pages/supprimerVille.inc.php");
     break;
 
 default : 	include_once('pages/accueil.inc.php');
